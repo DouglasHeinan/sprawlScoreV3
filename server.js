@@ -7,6 +7,10 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const cookieParser = require("cookie-parser")
+const cors = require("cors");
+const {logger} = require("./middleware/logger")
+const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT || 3500;
 const root = require("./routes/root");
@@ -24,8 +28,13 @@ const app = express()
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "views"));
 
-// Not sure if necessary...
-// app.use(express.json())
+app.use(logger);
+
+app.use(cors())
+
+app.use(express.json())
+
+app.use(cookieParser())
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -43,7 +52,9 @@ app.all("*", (req, res) => {
     } else {
         res.type("txt").send("404 Not Found")
     }
-})
+});
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log("**********Server listening on port ", PORT, "**********");
