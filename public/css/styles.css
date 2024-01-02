@@ -1,0 +1,21 @@
+/* <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;400;700&family=Sofia+Sans:wght@100;300;400;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Sofia Sans', sans-serif;
+    font-size: 2rem;
+}
+
+body {
+    min-height: 100vh;
+    background-color: gray;
+    padding: 1 rem;
+}
