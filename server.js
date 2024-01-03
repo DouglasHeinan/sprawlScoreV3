@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -10,24 +11,27 @@ const LocalStrategy = require("passport-local");
 const cookieParser = require("cookie-parser")
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions")
-const {logger} = require("./middleware/logger")
+const connectDB = require("./config/dbConn")
+const {logger, logEvents} = require("./middleware/logger")
 const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT || 3500;
 const root = require("./routes/root");
 
-mongoose.connect("mongodb://127.0.0.1:27017/opolisdbs", {
+// mongoose.connect("mongodb://127.0.0.1:27017/opolisdbs", {
     // useNewUrlParser: true,
     // useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
+// });
 
 const app = express()
 
 // app.engine("ejs", ejsMate);
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "views"));
+
+connectDB();
+
+const db = mongoose.connection;
 
 app.use(logger);
 
@@ -57,6 +61,16 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-    console.log("**********Server listening on port ", PORT, "**********");
-})
+db.once("open", () => {
+    console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+        console.log("**********Server listening on port ", PORT, "**********");
+    })
+});
+
+db.on("error", err => {
+    console.log(err)
+    logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoErrLog.log")
+});
+
