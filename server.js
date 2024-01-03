@@ -9,6 +9,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const cookieParser = require("cookie-parser")
 const cors = require("cors");
+const corsOptions = require("./config/corsOptions")
 const {logger} = require("./middleware/logger")
 const errorHandler = require("./middleware/errorHandler");
 
@@ -30,7 +31,7 @@ const app = express()
 
 app.use(logger);
 
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
