@@ -17,6 +17,7 @@ const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT || 3500;
 const root = require("./routes/root");
+const userRoutes = require("./routes/userRoutes")
 
 const app = express()
 
@@ -41,6 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", root);
+app.use("/users", userRoutes);
 
 app.all("*", (req, res) => {
     res.status(404);
