@@ -2,13 +2,13 @@ require("dotenv").config()
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const ejsMate = require("ejs-mate");
-const session = require("express-session");
-const flash = require("connect-flash");
-const methodOverride = require("method-override");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const cookieParser = require("cookie-parser")
+// const ejsMate = require("ejs-mate");
+// const session = require("express-session");
+// const flash = require("connect-flash");
+// const methodOverride = require("method-override");
+// const passport = require("passport");
+// const LocalStrategy = require("passport-local");
+// const cookieParser = require("cookie-parser")
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions")
 const connectDB = require("./config/dbConn")
@@ -17,11 +17,6 @@ const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT || 3500;
 const root = require("./routes/root");
-
-// mongoose.connect("mongodb://127.0.0.1:27017/opolisdbs", {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true
-// });
 
 const app = express()
 
@@ -39,10 +34,10 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 
-app.use(cookieParser())
+// app.use(cookieParser())
 
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
+// app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", root);
@@ -62,7 +57,7 @@ app.all("*", (req, res) => {
 app.use(errorHandler);
 
 db.once("open", () => {
-    console.log("Connected to MongoDB");
+    console.log("**********Connected to MongoDB**********");
     app.listen(PORT, () => {
         console.log("**********Server listening on port ", PORT, "**********");
     })
