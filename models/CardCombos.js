@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const CardComboSchema = new Schema({
+const cardComboSchema = new Schema({
     cards: [
         { 
             type: Schema.Types.ObjectId,  
@@ -15,4 +15,4 @@ const CardComboSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model("CardCombo", CardComboSchema);
+module.exports = mongoose.model("CardCombo", cardComboSchema);
