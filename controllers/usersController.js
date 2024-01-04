@@ -76,7 +76,7 @@ const updateUser = asyncHandler(async (req, res) => {
     if (password) {
         // Hash password
         user.password = await bcrypt.hash(password, 10) // salt rounds
-    }
+    };
 
     const updatedUser = await user.save();
 
@@ -88,7 +88,22 @@ const updateUser = asyncHandler(async (req, res) => {
 // @route DELETE /users
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req.body;
+    if (!id) {
+        res.status(400).json({ message: "User ID required" });
+    };
 
+    const user = await User.findById(id).exec();
+
+    if (!user) {
+        return res.status(400).json({ message:"User not found" });
+    };
+    
+    const result = await user.deleteOne();
+
+    const reply = `Username ${result.username} with ID ${result._id} deleted.`
+    
+    res.json(reply);
 });
 
 
