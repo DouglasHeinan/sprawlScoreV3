@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 // @access Private
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find().select("-password").lean()
-    if (!users) {
+    if (!users.length) {
         return res.status(400).json({ message: "No users found" });
     }
     res.json(users);
@@ -51,7 +51,6 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
     const { id, username, password, email} = req.body;
-
     // Confirm data
     if (!id || !username || !email) {
         return res.status(400).json({ message: "All fields are required" });
@@ -93,15 +92,15 @@ const deleteUser = asyncHandler(async (req, res) => {
         res.status(400).json({ message: "User ID required" });
     };
 
-    const user = await User.findById(id).exec();
+    const user = await User.findByIdAndDelete(id).exec();
 
     if (!user) {
         return res.status(400).json({ message:"User not found" });
     };
     
-    const result = await user.deleteOne();
+    // *****NEED TO DELETE GAME RESULTS AS WELL*****
 
-    const reply = `Username ${result.username} with ID ${result._id} deleted.`
+    const reply = `Username ${user.username} with ID ${user._id} deleted.`
     
     res.json(reply);
 });
