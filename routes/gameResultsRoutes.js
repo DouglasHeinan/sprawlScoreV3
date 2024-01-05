@@ -4,7 +4,7 @@ const gameResultsController = require("../controllers/gameResultsController");
 
 router.route("/")
     .get(gameResultsController.getAllGameResults)
-    .post(gameResultsController.createGameResult)
+    .post(gameResultsController.createNewGameResult)
     .patch(gameResultsController.updateGameResult)
     .delete(gameResultsController.deleteGameResult)
 

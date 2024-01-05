@@ -17,7 +17,8 @@ const errorHandler = require("./middleware/errorHandler");
 
 const PORT = process.env.PORT || 3500;
 const root = require("./routes/root");
-const userRoutes = require("./routes/userRoutes")
+const userRoutes = require("./routes/userRoutes");
+const gameResultsRoutes = require("./routes/gameResultsRoutes");
 
 const app = express()
 
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", root);
 app.use("/users", userRoutes);
+app.use("/gameResults", gameResultsRoutes);
 
 app.all("*", (req, res) => {
     res.status(404);
