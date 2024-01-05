@@ -1,14 +1,16 @@
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const mongoose = require("mongoose");
-const ScoreCard = require("../models/scoringCards");
-const CardCombo = require("../models/cardCombos")
-const cards = require("./seedSprawl")
+const ScoreCard = require("../models/ScoringCards");
+const CardCombo = require("../models/CardCombos");
+const cards = require("./sprawlopolisCards");
 
-mongoose.connect("mongodb://127.0.0.1:27017/comboRecords", {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-});
+const connectDB = require("../config/dbConn");
+
+connectDB();
 
 const db = mongoose.connection;
+
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
     console.log("db connected");
